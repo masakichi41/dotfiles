@@ -1,0 +1,28 @@
+# GNU Stow default ignore list
+# (.stow-local-ignore はデフォルトリストを置き換えるため、デフォルトを再記載する必要がある)
+RCS
+.+,v
+
+CVS
+\.\#.+
+\.cvsignore
+
+\.svn
+_darcs
+\.hg
+
+\.git
+\.gitignore
+\.gitmodules
+
+.+~
+\#.*\#
+
+^/README.*
+^/LICENSE.*
+^/COPYING
+
+# Package-specific ignores
+^/CLAUDE\.md$
+^/\.DS_Store$
+^/\.claude$

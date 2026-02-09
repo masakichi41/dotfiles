@@ -52,7 +52,7 @@ fi
 
 # --- Stow ---
 echo "==> Stowing dotfiles..."
-stow -d "$DOTFILES" -t "$HOME" --restow zsh
+stow -d "$DOTFILES" -t "$HOME" --restow zsh nvim
 
 echo ""
 echo "Done! Restart your shell or run: exec zsh"

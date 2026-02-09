@@ -14,7 +14,7 @@ secrets/
 
 # neovim
 .nvimlog
-lua/config/local.lua
+nvim/.config/nvim/lua/config/local.lua
 
 # zsh plugins (cloned by install.sh)
 zsh/.zsh-custom/plugins/
