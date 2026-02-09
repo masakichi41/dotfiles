@@ -1,0 +1,20 @@
+# OS
+.DS_Store
+
+# secret
+*.local
+.env
+.env.*
+secrets/
+
+# editor
+*.swp
+*.swo
+*~
+
+# neovim
+.nvimlog
+lua/config/local.lua
+
+# zsh plugins (cloned by install.sh)
+zsh/.zsh-custom/plugins/

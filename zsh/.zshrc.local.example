@@ -1,0 +1,25 @@
+# Machine-specific settings (copy to ~/.zshrc.local)
+
+# Java (auto-detect JDK 17)
+if [[ -x /usr/libexec/java_home ]]; then
+  JAVA_HOME="$(/usr/libexec/java_home -v 17 2>/dev/null)" && export JAVA_HOME
+fi
+
+# Android
+export ANDROID_HOME="$HOME/Library/Android/sdk"
+
+# Machine-specific PATH
+if [[ -n "$ANDROID_HOME" ]]; then
+  path=(
+    $path
+    $ANDROID_HOME/emulator
+    $ANDROID_HOME/platform-tools
+  )
+fi
+
+path+=(
+  $HOME/.antigravity/antigravity/bin
+  $HOME/.lmstudio/bin
+)
+
+[[ -d /opt/homebrew/opt/postgresql@16/bin ]] && path=(/opt/homebrew/opt/postgresql@16/bin $path)
