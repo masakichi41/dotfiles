@@ -1,0 +1,14 @@
+# Machine-specific tmux settings
+# Copy to ~/.tmux.conf.local
+
+# Example: Change prefix to C-a
+# unbind C-b
+# set -g prefix C-a
+# bind C-a send-prefix
+
+# Example: Custom status bar colors
+# set -g status-style 'bg=colour235 fg=colour136'
+
+# Example: Additional plugins
+# set -g @plugin 'tmux-plugins/tmux-continuum'
+# set -g @continuum-restore 'on'
