@@ -16,5 +16,11 @@ secrets/
 .nvimlog
 nvim/.config/nvim/lua/config/local.lua
 
+# zsh completion cache
+.zcompdump*
+
 # zsh plugins (cloned by install.sh)
 zsh/.zsh-custom/plugins/
+
+# tmux plugins (cloned by install.sh)
+tmux/.tmux/plugins/
