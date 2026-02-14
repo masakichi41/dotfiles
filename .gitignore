@@ -3,6 +3,7 @@
 
 # secret
 *.local
+!.local/
 .env
 .env.*
 secrets/

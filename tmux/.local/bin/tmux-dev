@@ -1,0 +1,22 @@
+#!/bin/bash
+set -euo pipefail
+
+# tmux-dev: neovim (left 50%) + claude code (right 50%) layout
+#
+# Usage:
+#   prefix + D      # tmux キーバインドから（カレントパスが渡される）
+#   tmux-dev [dir]  # シェルから直接
+
+dir="${1:-$(pwd)}"
+
+# 右に 50% のペインを作成（Claude Code 用）
+tmux split-window -h -l 50% -c "$dir"
+
+# 左ペインで neovim を起動
+tmux send-keys -t "{left}" "nvim" Enter
+
+# 右ペインで claude を起動
+tmux send-keys -t "{right}" "claude" Enter
+
+# 左ペイン（neovim）にフォーカス
+tmux select-pane -t "{left}"
