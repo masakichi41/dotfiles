@@ -1,2 +1,2 @@
-alias air='$GOPATH/bin/air'
+alias air='$HOME/go/bin/air'
 alias ccm='ccmanager'

@@ -7,9 +7,6 @@ export LANG=ja_JP.UTF-8
 # Homebrew
 export HOMEBREW_NO_AUTO_UPDATE=1
 
-# Go
-export GOPATH="$HOME/go"
-
 # proto
 export PROTO_HOME="$HOME/.proto"
 
@@ -21,5 +18,5 @@ path=(
   $HOME/.local/bin
   /opt/homebrew/opt/openjdk/bin
   $path
-  $GOPATH/bin
+  $HOME/go/bin
 )
