@@ -20,9 +20,10 @@ return {
       javascriptreact = { 'biome', 'prettierd', 'prettier', stop_after_first = true },
       typescriptreact = { 'biome', 'prettierd', 'prettier', stop_after_first = true },
       json = { 'biome', 'prettierd', 'prettier', stop_after_first = true },
+      go = { 'goimports', 'gofumpt' },
     },
     format_on_save = {
-      timeout_ms = 500,
+      timeout_ms = 3000,
       lsp_fallback = true,
     },
     formatters = {

@@ -5,7 +5,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## プロジェクト概要
 
 macOS 向け dotfiles リポジトリ。シンボリックリンクの管理に **GNU Stow** を使用。
-現在 zsh と neovim の設定が実装済み。tmux の設定を追加予定。
+zsh、neovim、tmux の設定を管理。tmux + neovim + Claude Code を統合した開発環境を構築している。
 
 ## コマンド
 
@@ -26,6 +26,7 @@ stow -d . -t "$HOME" -D zsh
 
 ```
 zsh/                    ← stow パッケージ "zsh"
+├── .zshenv             → ~/.zshenv（PATH 設定: proto, Homebrew, Go 等）
 ├── .zshrc              → ~/.zshrc
 ├── .zshrc.local.example（stow 対象、テンプレート）
 └── .zsh-custom/        → ~/.zsh-custom/
@@ -35,7 +36,8 @@ zsh/                    ← stow パッケージ "zsh"
     ├── options.zsh
     ├── tools.zsh       （uv, direnv 等の外部ツール初期化）
     ├── ghq.zsh         （mkp: ghq 管理下にプロジェクト作成）
-    ├── peco.zsh        （Ctrl+R/E/G/T/W のインタラクティブ選択）
+    ├── fzf.zsh         （Ctrl+R/E/G/T/W のインタラクティブ選択、fzf ベース）
+    ├── tmux.zsh        （tm: tmux セッション作成/アタッチ）
     └── themes/my-custom.zsh-theme
 
 nvim/                   ← stow パッケージ "nvim"
@@ -49,10 +51,19 @@ nvim/                   ← stow パッケージ "nvim"
         └── lua/
             ├── config/ （options, keymaps, autocmds, platform, lazy）
             └── plugins/（1ファイル1プラグイン、lazy.nvim が自動読み込み）
+
+tmux/                   ← stow パッケージ "tmux"
+├── .tmux.conf              → ~/.tmux.conf
+├── .tmux.conf.local.example（stow 対象、テンプレート）
+├── .local/
+│   └── bin/
+│       └── tmux-dev        → ~/.local/bin/tmux-dev（開発レイアウトスクリプト）
+└── .tmux/
+    └── plugins/            （TPM + プラグイン、install.sh が clone、gitignore 対象）
 ```
 
-新しいツール（tmux 等）を追加する場合:
-1. トップレベルに `tmux/` 等のディレクトリを作成し、`$HOME` からの相対パスでファイルを配置
+新しいツールを追加する場合:
+1. トップレベルにディレクトリを作成し、`$HOME` からの相対パスでファイルを配置
 2. `install.sh` の stow コマンドにパッケージ名を追加
 3. プラグイン等の外部依存があれば `install.sh` にインストール処理を追加
 
@@ -71,6 +82,18 @@ nvim/                   ← stow パッケージ "nvim"
 - マシン固有の設定は `lua/config/local.lua`（gitignore 対象、`pcall(require)` で安全に読み込み）
 - macOS 固有の IME 自動切り替え（`macism` コマンド使用、`config/platform.lua`）
 - パッケージルートの `CLAUDE.md` は `.stow-local-ignore` により stow 対象外
+- 詳細は `nvim/CLAUDE.md` を参照
+
+## tmux 設定のアーキテクチャ
+
+- **TPM (Tmux Plugin Manager)** でプラグイン管理。`install.sh` が clone
+- プレフィックスキー: `Ctrl+Space`
+- **vim-tmux-navigator** で neovim と tmux 間のペイン移動をシームレスに統合（`Ctrl+hjkl`）
+- **tmux-resurrect** でセッション永続化（neovim のセッション復元対応）
+- `prefix + D` で開発レイアウト起動（`tmux-dev` スクリプト: nvim 左 50% + claude 右 50%）
+- `tm` コマンド（`zsh/.zsh-custom/tmux.zsh`）でカレントディレクトリ名のセッションを作成/アタッチ
+- マシン固有の設定は `~/.tmux.conf.local`（gitignore 対象、テンプレートは `.tmux.conf.local.example`）
+- tmux プラグイン（`tmux/.tmux/plugins/`）は `install.sh` が clone するため gitignore 対象
 
 ## 注意事項
 

@@ -119,7 +119,20 @@ return {
         ruff = {},
 
         -- Go
-        gopls = {},
+        gopls = {
+          settings = {
+            gopls = {
+              analyses = {
+                unusedparams = true,
+                unusedwrite = true,
+                useany = true,
+                nilness = true,
+              },
+              staticcheck = true,
+              gofumpt = true,
+            },
+          },
+        },
 
         -- Web
         html = {},
@@ -138,6 +151,9 @@ return {
         'biome',
         'eslint_d',
         'prettierd',
+        'goimports',
+        'gofumpt',
+        'golangci-lint',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
