@@ -4,7 +4,7 @@ function mkp() {
   # 1. 既存のオーナー/カテゴリから選択
   local parent=$(fd . "$ghq_root" --type d --min-depth 2 --max-depth 2 |
           sed "s|$ghq_root/||" |
-          peco --prompt "location > ")
+          fzf --prompt "location > ")
   [[ -z "$parent" ]] && return
 
   # 2. プロジェクト名を入力

@@ -19,7 +19,7 @@ export ZSH_CUSTOM="$HOME/.zsh-custom"
 source "$ZSH/oh-my-zsh.sh"
 
 # zsh-syntax-highlighting: must be sourced AFTER all zle widget definitions
-# (peco.zsh etc. define widgets via OMZ custom auto-source above)
+# (fzf.zsh etc. define widgets via OMZ custom auto-source above)
 local _zsh_sh="$ZSH_CUSTOM/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 [[ -f "$_zsh_sh" ]] && source "$_zsh_sh"
 unset _zsh_sh

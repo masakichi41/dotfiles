@@ -1,11 +1,18 @@
+# fzf defaults (can be overridden in ~/.zshrc.local)
+export FZF_DEFAULT_OPTS="${FZF_DEFAULT_OPTS:-} --height=40% --reverse --border"
+
 # history
-function peco-history-selection() {
-  BUFFER=`history -n 1 | tail -r | awk '!a[$0]++' | peco`
+function fzf-history-selection() {
+  local selected
+  selected="$(history -n 1 | tail -r | awk '!a[$0]++' | fzf --scheme=history --prompt="history > " --query "$LBUFFER")"
+  if [[ -n "$selected" ]]; then
+    BUFFER="$selected"
+  fi
   CURSOR=$#BUFFER
   zle reset-prompt
 }
-zle -N peco-history-selection
-bindkey '^R' peco-history-selection
+zle -N fzf-history-selection
+bindkey '^R' fzf-history-selection
 
 # cdr
 if [[ -n $(echo ${^fpath}/chpwd_recent_dirs(N)) && -n $(echo ${^fpath}/cdr(N)) ]]; then
@@ -17,18 +24,18 @@ if [[ -n $(echo ${^fpath}/chpwd_recent_dirs(N)) && -n $(echo ${^fpath}/cdr(N)) ]
   zstyle ':chpwd:*' recent-dirs-file "$HOME/.cache/chpwd-recent-dirs"
 fi
 
-function peco-cdr () {
-  local selected_dir="$(cdr -l | sed -E 's/^[0-9]+ *//' | peco --prompt="cdr >" --query "$LBUFFER")"
+function fzf-cdr () {
+  local selected_dir="$(cdr -l | sed -E 's/^[0-9]+ *//' | fzf --prompt="cdr > " --query "$LBUFFER")"
   if [[ -n "$selected_dir" ]]; then
     BUFFER="cd ${selected_dir}"
     zle accept-line
   fi
 }
-zle -N peco-cdr
-bindkey '^E' peco-cdr
+zle -N fzf-cdr
+bindkey '^E' fzf-cdr
 
 # git worktree
-function peco-git-worktree () {
+function fzf-git-worktree () {
   local git_dir=$(git rev-parse --git-dir 2>/dev/null)
   if [[ -z "$git_dir" ]]; then
     zle -M "not a git repository"
@@ -55,7 +62,7 @@ function peco-git-worktree () {
         }
       }
     ' \
-    | peco --prompt="worktree >" --query "$LBUFFER")"
+    | fzf --prompt="worktree > " --query "$LBUFFER" --delimiter='\t' --with-nth=1)"
 
   if [[ -n "$selected" ]]; then
     local selected_dir="${selected#*$'\t'}"
@@ -64,36 +71,36 @@ function peco-git-worktree () {
   fi
   zle redisplay
 }
-zle -N peco-git-worktree
-bindkey '^w' peco-git-worktree
+zle -N fzf-git-worktree
+bindkey '^w' fzf-git-worktree
 
 # ghq source
-function peco-src() {
+function fzf-src() {
   local ghq_root="$(ghq root)"
   local selected=$(fd . "$ghq_root" --type d --min-depth 3 --max-depth 3 \
           --exclude 'worktrees' |
           sed "s|$ghq_root/||" |
-          peco --query "$LBUFFER")
+          fzf --prompt="ghq > " --query "$LBUFFER")
   if [[ -n "$selected" ]]; then
     BUFFER="cd -- \"$ghq_root/$selected\""
     zle accept-line
   fi
   zle redisplay
 }
-zle -N peco-src
-bindkey '^G' peco-src
+zle -N fzf-src
+bindkey '^G' fzf-src
 
 # ghq parent directory
-function peco-src-parent() {
+function fzf-src-parent() {
   local ghq_root="$(ghq root)"
   local selected=$(fd . "$ghq_root" --type d --min-depth 2 --max-depth 2 |
           sed "s|$ghq_root/||" |
-          peco --query "$LBUFFER")
+          fzf --prompt="ghq-parent > " --query "$LBUFFER")
   if [[ -n "$selected" ]]; then
     BUFFER="cd -- \"$ghq_root/$selected\""
     zle accept-line
   fi
   zle redisplay
 }
-zle -N peco-src-parent
-bindkey '^T' peco-src-parent
+zle -N fzf-src-parent
+bindkey '^T' fzf-src-parent

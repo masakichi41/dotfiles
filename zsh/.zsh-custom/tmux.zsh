@@ -26,8 +26,8 @@ function tm() {
   fi
 }
 
-# TODO: 将来的に peco で既存セッション一覧から選択する機能を追加
+# TODO: 将来的に fzf で既存セッション一覧から選択する機能を追加
 # function tms() {
-#   local selected=$(tmux list-sessions -F "#{session_name}" 2>/dev/null | peco)
+#   local selected=$(tmux list-sessions -F "#{session_name}" 2>/dev/null | fzf)
 #   ...
 # }
