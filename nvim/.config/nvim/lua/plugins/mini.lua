@@ -5,7 +5,17 @@ return {
     require('mini.ai').setup { n_lines = 500 }
 
     -- 囲み文字操作（add/delete/replace）
-    require('mini.surround').setup()
+    require('mini.surround').setup {
+      mappings = {
+        add = 'gsa',
+        delete = 'gsd',
+        find = 'gsf',
+        find_left = 'gsF',
+        highlight = 'gsh',
+        replace = 'gsr',
+        update_n_lines = 'gsn',
+      },
+    }
 
     -- ステータスライン
     local statusline = require 'mini.statusline'
