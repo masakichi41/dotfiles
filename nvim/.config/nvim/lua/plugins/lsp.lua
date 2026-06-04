@@ -130,9 +130,13 @@ return {
               },
               staticcheck = true,
               gofumpt = true,
+              semanticTokens = true,
             },
           },
         },
+
+        -- Ruby
+        ruby_lsp = {},
 
         -- Web
         html = {},
