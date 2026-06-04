@@ -9,6 +9,15 @@ map('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]ui
 -- ターミナルモード終了
 map('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 
+-- 十字キー無効化（hjkl に慣れるための矯正）
+local nop = '<Nop>'
+for _, key in ipairs({ '<Up>', '<Down>', '<Left>', '<Right>' }) do
+  map({ 'n', 'v' }, key, nop, { desc = 'Use hjkl instead' })
+end
+
+-- jj で Normal モードに戻る
+map('i', 'jj', '<Esc>', { desc = 'Exit insert mode' })
+
 -- ターミナルトグル
 map('n', '<leader>ot', function()
   -- neo-tree ウィンドウ上にいる場合は隣に移動

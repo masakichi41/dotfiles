@@ -3,8 +3,9 @@ vim.scriptencoding = 'utf-8'
 vim.opt.encoding = 'utf-8'
 vim.opt.fileencoding = 'utf-8'
 
--- 行番号
+-- 行番号（カーソル行は絶対行番号、他は相対行番号）
 vim.o.number = true
+vim.o.relativenumber = true
 
 -- マウス
 vim.o.mouse = 'a'
@@ -53,3 +54,6 @@ vim.o.scrolloff = 10
 
 -- 確認ダイアログ
 vim.o.confirm = true
+
+-- 自動保存（バッファ切り替え・外部コマンド実行時など）
+vim.opt.autowriteall = true
