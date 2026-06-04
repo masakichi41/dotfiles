@@ -30,14 +30,14 @@ zsh/                    ← stow パッケージ "zsh"
 ├── .zshrc              → ~/.zshrc
 ├── .zshrc.local.example（stow 対象、テンプレート）
 └── .zsh-custom/        → ~/.zsh-custom/
-    ├── aliases.zsh
-    ├── functions.zsh
+    ├── aliases.zsh      （air=Go ホットリロード, ccm=ccmanager）
+    ├── functions.zsh    （timed: コマンド実行時間の計測）
     ├── history.zsh
     ├── options.zsh
-    ├── tools.zsh       （uv, direnv 等の外部ツール初期化）
-    ├── ghq.zsh         （mkp: ghq 管理下にプロジェクト作成）
-    ├── fzf.zsh         （Ctrl+R/E/G/T/W のインタラクティブ選択、fzf ベース）
-    ├── tmux.zsh        （tm: tmux セッション作成/アタッチ）
+    ├── tools.zsh        （uv, direnv 等の外部ツール初期化）
+    ├── ghq.zsh          （mkp: ghq 管理下にプロジェクト作成 + git init）
+    ├── fzf.zsh          （Ctrl+R 履歴 / E cdr / G ghq / T ghq親dir / W git worktree）
+    ├── tmux.zsh         （tm: セッション作成/アタッチ、新規時 nvim+claude レイアウト）
     └── themes/my-custom.zsh-theme
 
 nvim/                   ← stow パッケージ "nvim"
@@ -50,7 +50,8 @@ nvim/                   ← stow パッケージ "nvim"
         ├── lazy-lock.json
         └── lua/
             ├── config/ （options, keymaps, autocmds, platform, lazy）
-            └── plugins/（1ファイル1プラグイン、lazy.nvim が自動読み込み）
+            └── plugins/（1ファイル1プラグイン、lazy.nvim が自動読み込み。
+                          LSP/補完/フォーマット/lint/Git/ファイラー等 約20個）
 
 tmux/                   ← stow パッケージ "tmux"
 ├── .tmux.conf              → ~/.tmux.conf
@@ -69,29 +70,35 @@ tmux/                   ← stow パッケージ "tmux"
 
 ## zsh 設定のアーキテクチャ
 
-- **Oh My Zsh** ベース。`$ZSH_CUSTOM` は `~/.zsh-custom`（stow 経由でリンク）
-- Oh My Zsh が `$ZSH_CUSTOM/*.zsh` を自動 source するため、機能ごとにファイルを分割
+- **Oh My Zsh** ベース。`$ZSH_CUSTOM` は `~/.zsh-custom`（stow 経由でリンク）。有効プラグインは `git`, `docker`, `zsh-autosuggestions`、テーマは `my-custom`
+- Oh My Zsh が `$ZSH_CUSTOM/*.zsh` を自動 source するため、機能ごとにファイルを分割（読み込み順: plugins → `$ZSH_CUSTOM/*.zsh` → theme）
 - **zsh-syntax-highlighting** は `.zshrc` 末尾で手動 source（zle ウィジェット定義より後に読む必要があるため）
-- マシン固有の設定は `~/.zshrc.local`（gitignore 対象、テンプレートは `.zshrc.local.example`）
+- **PATH 戦略**: `.zshenv`（全シェル共通、`LANG=ja_JP.UTF-8` 等も定義）で `proto → Homebrew → ~/.local/bin → … → ~/go/bin` の順に構築。`.zshrc` では `/etc/zprofile` の `path_helper` による並べ替えを打ち消すため proto と Homebrew を再度先頭へ移動（proto 管理のツールバージョンを優先させるため）
+- マシン固有の設定は `~/.zshrc.local`（gitignore 対象、テンプレートは `.zshrc.local.example`。Java/Android/PostgreSQL 等の PATH 例を含む）
 - zsh プラグイン（`zsh/.zsh-custom/plugins/`）は `install.sh` が clone するため gitignore 対象
 
 ## nvim 設定のアーキテクチャ
 
 - **lazy.nvim** でプラグイン管理。初回起動時に自動ブートストラップ
 - `lua/plugins/` に 1 ファイル 1 プラグインで配置すれば自動読み込み
+- **LSP/開発環境**: `mason.nvim` + `mason-tool-installer` で言語サーバ・ツールを自動インストール。対応言語は Go(gopls)・TS/JS(vtsls, biome, eslint)・Python(pyright, ruff)・Lua(lua_ls)・Ruby(ruby_lsp)・HTML/CSS・Markdown(marksman)・JSON
+- **補完** `blink.cmp`(+LuaSnip)、**フォーマット** `conform.nvim`（stylua / biome / prettierd / goimports+gofumpt、保存時に自動実行）、**lint** `nvim-lint`（Go=golangci-lint）
+- Go 開発を重点サポート（gopls + goimports/gofumpt/golangci-lint、`autocmds.lua` で Go のタブ幅を 4 に設定）
 - マシン固有の設定は `lua/config/local.lua`（gitignore 対象、`pcall(require)` で安全に読み込み）
 - macOS 固有の IME 自動切り替え（`macism` コマンド使用、`config/platform.lua`）
 - パッケージルートの `CLAUDE.md` は `.stow-local-ignore` により stow 対象外
-- 詳細は `nvim/CLAUDE.md` を参照
+- 全プラグイン一覧・キーマップ等の詳細は `nvim/CLAUDE.md` を参照
 
 ## tmux 設定のアーキテクチャ
 
-- **TPM (Tmux Plugin Manager)** でプラグイン管理。`install.sh` が clone
+- **TPM (Tmux Plugin Manager)** でプラグイン管理。`install.sh` が clone。導入プラグイン: `tmux-sensible`, `tmux-resurrect`, `tmux-yank`, `vim-tmux-navigator`
 - プレフィックスキー: `Ctrl+Space`
 - **vim-tmux-navigator** で neovim と tmux 間のペイン移動をシームレスに統合（`Ctrl+hjkl`）
-- **tmux-resurrect** でセッション永続化（neovim のセッション復元対応）
+- **tmux-resurrect** でセッション永続化（`@resurrect-strategy-nvim 'session'` で neovim のセッション復元、ペイン内容もキャプチャ）
+- **Claude Code 連携**: `Shift+Enter` を CSI u エンコード（`\e[13;2u`）で送出し、Claude Code 内での改行入力に対応
 - `prefix + D` で開発レイアウト起動（`tmux-dev` スクリプト: nvim 左 50% + claude 右 50%）
-- `tm` コマンド（`zsh/.zsh-custom/tmux.zsh`）でカレントディレクトリ名のセッションを作成/アタッチ
+- ペイン操作: `prefix + |` / `-` で分割（カレントパス維持）、`prefix + H/J/K/L` でリサイズ、コピーは vi モード
+- `tm` コマンド（`zsh/.zsh-custom/tmux.zsh`）でカレントディレクトリ名のセッションを作成/アタッチ（新規時は nvim+claude レイアウト）
 - マシン固有の設定は `~/.tmux.conf.local`（gitignore 対象、テンプレートは `.tmux.conf.local.example`）
 - tmux プラグイン（`tmux/.tmux/plugins/`）は `install.sh` が clone するため gitignore 対象
 
@@ -99,4 +106,5 @@ tmux/                   ← stow パッケージ "tmux"
 
 - `*.local` ファイルは gitignore 対象。マシン固有の秘密情報や PATH を含む
 - 新しい zsh カスタムファイルは `.zsh-custom/` 直下に `*.zsh` として配置すれば自動で読み込まれる
+- PATH の優先順位を変える場合は `.zshenv` と `.zshrc` の両方を確認する（後者は `path_helper` 対策で再ソートしている）
 - `.stow-local-ignore` はデフォルトの ignore リストを**置き換える**ため、Stow デフォルトのパターン（`.git` 等）も含める必要がある
