@@ -14,6 +14,10 @@ plugins=(
 # Custom directory
 export ZSH_CUSTOM="$HOME/.zsh-custom"
 
+# Reorder proto and Homebrew to the front (override /etc/zprofile's path_helper)
+# proto must come before Homebrew so proto-managed tool versions take precedence
+path=($PROTO_HOME/shims $PROTO_HOME/bin /opt/homebrew/bin /opt/homebrew/sbin $path)
+
 # Initialize Oh My Zsh
 # Auto-sources: plugins → $ZSH_CUSTOM/*.zsh → theme
 source "$ZSH/oh-my-zsh.sh"

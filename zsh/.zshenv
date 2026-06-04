@@ -5,7 +5,7 @@ typeset -U path PATH
 export LANG=ja_JP.UTF-8
 
 # Homebrew
-export HOMEBREW_NO_AUTO_UPDATE=1
+export HOMEBREW_NO_ENV_HINTS=1
 
 # proto
 export PROTO_HOME="$HOME/.proto"
@@ -15,6 +15,7 @@ path=(
   $PROTO_HOME/shims
   $PROTO_HOME/bin
   /opt/homebrew/bin
+  /opt/homebrew/sbin
   $HOME/.local/bin
   /opt/homebrew/opt/openjdk/bin
   $path
