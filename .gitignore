@@ -25,3 +25,6 @@ zsh/.zsh-custom/plugins/
 
 # tmux plugins (cloned by install.sh)
 tmux/.tmux/plugins/
+
+# Claude Code working files
+.claude/
