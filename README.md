@@ -1,6 +1,6 @@
 # dotfiles
 
-macOS 向け dotfiles。GNU Stow でシンボリックリンクを管理し、zsh / neovim / tmux の設定をまとめている。
+macOS 向け dotfiles。GNU Stow でシンボリックリンクを管理し、zsh / neovim の設定をまとめている。
 
 ## セットアップ
 
@@ -28,13 +28,12 @@ cd ~/.dotfiles
 ./install.sh
 ```
 
-zsh プラグイン・TPM・Oh My Zsh の clone、`~/.zshrc.local` / `~/.tmux.conf.local` の初期生成、Stow によるリンクまで行う。
+zsh プラグイン・Oh My Zsh の clone、`~/.zshrc.local` の初期生成、Stow によるリンクまで行う。
 
 ### 3. その他（任意）
 
 Brewfile には含めていないため、必要に応じて個別に用意する。
 
-- **tmux**: tmux 設定を使う場合のみ `brew install tmux` などで導入
 - **Nerd Font**: neovim のアイコン表示（neo-tree, bufferline 等）に使う。好みのフォントを別途インストール
 - **proto**: `.zshenv` が `$PROTO_HOME/shims` を優先 PATH に置く前提になっている。Homebrew 配布ではないため proto 公式のインストール手順に従う
 

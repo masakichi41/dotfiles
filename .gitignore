@@ -23,8 +23,5 @@ nvim/.config/nvim/lua/config/local.lua
 # zsh plugins (cloned by install.sh)
 zsh/.zsh-custom/plugins/
 
-# tmux plugins (cloned by install.sh)
-tmux/.tmux/plugins/
-
 # Claude Code working files
 .claude/

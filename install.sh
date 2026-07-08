@@ -33,22 +33,6 @@ install_plugin() {
 install_plugin https://github.com/zsh-users/zsh-autosuggestions.git
 install_plugin https://github.com/zsh-users/zsh-syntax-highlighting.git
 
-# --- TPM (Tmux Plugin Manager) ---
-echo "==> Installing/updating TPM..."
-TPM_DIR="$DOTFILES/tmux/.tmux/plugins/tpm"
-mkdir -p "$(dirname "$TPM_DIR")"
-if [[ -d "$TPM_DIR/.git" ]]; then
-  echo "  tpm: updating..."
-  git -C "$TPM_DIR" pull --ff-only
-elif [[ -d "$TPM_DIR" ]]; then
-  echo "  tpm: exists but not a git repo, backing up and re-cloning..."
-  mv "$TPM_DIR" "$TPM_DIR$BACKUP_SUFFIX"
-  git clone --depth 1 https://github.com/tmux-plugins/tpm "$TPM_DIR"
-else
-  echo "  tpm: cloning..."
-  git clone --depth 1 https://github.com/tmux-plugins/tpm "$TPM_DIR"
-fi
-
 # --- Oh My Zsh ---
 echo "==> Installing/updating Oh My Zsh..."
 if [[ -d "$HOME/.oh-my-zsh/.git" ]]; then
@@ -69,16 +53,10 @@ else
   echo "  .zshrc.local: created from template"
   cp "$DOTFILES/zsh/.zshrc.local.example" "$HOME/.zshrc.local"
 fi
-if [[ -f "$HOME/.tmux.conf.local" ]]; then
-  echo "  .tmux.conf.local: already exists"
-else
-  echo "  .tmux.conf.local: created from template"
-  cp "$DOTFILES/tmux/.tmux.conf.local.example" "$HOME/.tmux.conf.local"
-fi
 
 # --- Stow ---
 echo "==> Stowing dotfiles..."
-stow -d "$DOTFILES" -t "$HOME" --restow zsh nvim tmux
+stow -d "$DOTFILES" -t "$HOME" --restow zsh nvim
 
 echo ""
 echo "Done! Restart your shell or run: exec zsh"

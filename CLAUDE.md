@@ -5,7 +5,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## プロジェクト概要
 
 macOS 向け dotfiles リポジトリ。シンボリックリンクの管理に **GNU Stow** を使用。
-zsh、neovim、tmux の設定を管理。tmux + neovim + Claude Code を統合した開発環境を構築している。
+zsh、neovim の設定を管理。
 
 ## コマンド
 
@@ -37,7 +37,6 @@ zsh/                    ← stow パッケージ "zsh"
     ├── tools.zsh        （uv, direnv 等の外部ツール初期化）
     ├── ghq.zsh          （mkp: ghq 管理下にプロジェクト作成 + git init）
     ├── fzf.zsh          （Ctrl+R 履歴 / E cdr / G ghq / T ghq親dir / W git worktree）
-    ├── tmux.zsh         （tm: セッション作成/アタッチ、新規時 nvim+claude レイアウト）
     └── themes/my-custom.zsh-theme
 
 nvim/                   ← stow パッケージ "nvim"
@@ -52,15 +51,6 @@ nvim/                   ← stow パッケージ "nvim"
             ├── config/ （options, keymaps, autocmds, platform, lazy）
             └── plugins/（1ファイル1プラグイン、lazy.nvim が自動読み込み。
                           LSP/補完/フォーマット/lint/Git/ファイラー等 約20個）
-
-tmux/                   ← stow パッケージ "tmux"
-├── .tmux.conf              → ~/.tmux.conf
-├── .tmux.conf.local.example（stow 対象、テンプレート）
-├── .local/
-│   └── bin/
-│       └── tmux-dev        → ~/.local/bin/tmux-dev（開発レイアウトスクリプト）
-└── .tmux/
-    └── plugins/            （TPM + プラグイン、install.sh が clone、gitignore 対象）
 ```
 
 新しいツールを追加する場合:
@@ -88,19 +78,6 @@ tmux/                   ← stow パッケージ "tmux"
 - macOS 固有の IME 自動切り替え（`macism` コマンド使用、`config/platform.lua`）
 - パッケージルートの `CLAUDE.md` は `.stow-local-ignore` により stow 対象外
 - 全プラグイン一覧・キーマップ等の詳細は `nvim/CLAUDE.md` を参照
-
-## tmux 設定のアーキテクチャ
-
-- **TPM (Tmux Plugin Manager)** でプラグイン管理。`install.sh` が clone。導入プラグイン: `tmux-sensible`, `tmux-resurrect`, `tmux-yank`, `vim-tmux-navigator`
-- プレフィックスキー: `Ctrl+Space`
-- **vim-tmux-navigator** で neovim と tmux 間のペイン移動をシームレスに統合（`Ctrl+hjkl`）
-- **tmux-resurrect** でセッション永続化（`@resurrect-strategy-nvim 'session'` で neovim のセッション復元、ペイン内容もキャプチャ）
-- **Claude Code 連携**: `Shift+Enter` を CSI u エンコード（`\e[13;2u`）で送出し、Claude Code 内での改行入力に対応
-- `prefix + D` で開発レイアウト起動（`tmux-dev` スクリプト: nvim 左 50% + claude 右 50%）
-- ペイン操作: `prefix + |` / `-` で分割（カレントパス維持）、`prefix + H/J/K/L` でリサイズ、コピーは vi モード
-- `tm` コマンド（`zsh/.zsh-custom/tmux.zsh`）でカレントディレクトリ名のセッションを作成/アタッチ（新規時は nvim+claude レイアウト）
-- マシン固有の設定は `~/.tmux.conf.local`（gitignore 対象、テンプレートは `.tmux.conf.local.example`）
-- tmux プラグイン（`tmux/.tmux/plugins/`）は `install.sh` が clone するため gitignore 対象
 
 ## 注意事項
 

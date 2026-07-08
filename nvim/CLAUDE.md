@@ -62,7 +62,7 @@ lua/
 | Git | gitsigns.nvim, lazygit.nvim |
 | 編集支援 | mini.nvim (ai/surround/statusline), nvim-autopairs, guess-indent |
 | UI | tokyonight (colorscheme), bufferline.nvim, which-key.nvim, todo-comments.nvim |
-| その他 | image.nvim (画像表示), vim-wakatime (時間計測), vimdoc-ja (日本語ヘルプ), vim-tmux-navigator |
+| その他 | image.nvim (画像表示), vim-wakatime (時間計測), vimdoc-ja (日本語ヘルプ) |
 
 ### LSP / フォーマット / Lint
 
