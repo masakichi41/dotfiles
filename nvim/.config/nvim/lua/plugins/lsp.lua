@@ -135,9 +135,6 @@ return {
           },
         },
 
-        -- Ruby
-        ruby_lsp = {},
-
         -- Web
         html = {},
         cssls = {},

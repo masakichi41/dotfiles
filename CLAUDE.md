@@ -71,7 +71,7 @@ nvim/                   ← stow パッケージ "nvim"
 
 - **lazy.nvim** でプラグイン管理。初回起動時に自動ブートストラップ
 - `lua/plugins/` に 1 ファイル 1 プラグインで配置すれば自動読み込み
-- **LSP/開発環境**: `mason.nvim` + `mason-tool-installer` で言語サーバ・ツールを自動インストール。対応言語は Go(gopls)・TS/JS(vtsls, biome, eslint)・Python(pyright, ruff)・Lua(lua_ls)・Ruby(ruby_lsp)・HTML/CSS・Markdown(marksman)・JSON
+- **LSP/開発環境**: `mason.nvim` + `mason-tool-installer` で言語サーバ・ツールを自動インストール。対応言語は Go(gopls)・TS/JS(vtsls, biome, eslint)・Python(pyright, ruff)・Lua(lua_ls)・HTML/CSS・Markdown(marksman)・JSON
 - **補完** `blink.cmp`(+LuaSnip)、**フォーマット** `conform.nvim`（stylua / biome / prettierd / goimports+gofumpt、保存時に自動実行）、**lint** `nvim-lint`（Go=golangci-lint）
 - Go 開発を重点サポート（gopls + goimports/gofumpt/golangci-lint、`autocmds.lua` で Go のタブ幅を 4 に設定）
 - マシン固有の設定は `lua/config/local.lua`（gitignore 対象、`pcall(require)` で安全に読み込み）
