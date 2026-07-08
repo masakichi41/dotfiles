@@ -1,0 +1,6 @@
+brew "stow"
+brew "fzf"
+brew "fd"
+brew "ripgrep"
+brew "ghq"
+brew "neovim"

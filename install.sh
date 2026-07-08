@@ -4,6 +4,10 @@ set -euo pipefail
 DOTFILES="$(cd "$(dirname "$0")" && pwd)"
 BACKUP_SUFFIX=".backup.$(date +%Y%m%d%H%M%S)"
 
+# --- Homebrew packages (stow, fzf, fd, ripgrep, ghq, neovim) ---
+echo "==> Installing missing Homebrew packages..."
+brew bundle --file="$DOTFILES/Brewfile"
+
 # --- Zsh plugins (latest, with update support) ---
 echo "==> Installing/updating zsh plugins..."
 ZSH_PLUGINS="$DOTFILES/zsh/.zsh-custom/plugins"
