@@ -17,7 +17,6 @@ path=(
   /opt/homebrew/bin
   /opt/homebrew/sbin
   $HOME/.local/bin
-  /opt/homebrew/opt/openjdk/bin
   $path
   $HOME/go/bin
 )
